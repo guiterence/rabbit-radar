@@ -1,0 +1,40 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./core/api
+      dockerfile: Dockerfile
+    container_name: rabbit-radar-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./core/api:/usr/src/app
+    depends_on:
+      - detection
+
+  detection:
+    build:
+      context: ./core/detection
+      dockerfile: Dockerfile
+    container_name: rabbit-radar-detection
+    volumes:
+      - ./core/detection:/usr/src/app
+
+  notifications:
+    build:
+      context: ./core/notifications
+      dockerfile: Dockerfile
+    container_name: rabbit-radar-notifications
+    volumes:
+      - ./core/notifications:/usr/src/app
+    depends_on:
+      - api  
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: rabbit_radar
+    volumes:
+      - pg_data:/var/lib/postgresql/data
