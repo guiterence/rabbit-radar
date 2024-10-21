@@ -1,0 +1,5 @@
+opencv-python==4.8.0.74
+requests==2.31.0
+numpy==2.1.2
+setuptools==65.5.0
+wheel==0.38.4

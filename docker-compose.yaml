@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  api:
+    image: rabbit-radar-api
+    container_name: rabbit-radar-api
+    build:
+      context: ./core/api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./core/api:/usr/src/app
+    depends_on:
+      - yolo-database
+      - camera-service
+
+  camera-service:
+    image: rabbit-radar-camera
+    container_name: rabbit-radar-camera
+    build:
+      context: ./core/camera-service
+    volumes:
+      - ./core/camera-service:/usr/src/app
+    depends_on:
+      - yolo-database
+
+  yolo-database:
+    image: rabbit-radar-database
+    container_name: rabbit-radar-database
+    build:
+      context: ./core/yolo-database
+    ports:
+      - "5001:5001"
+
+  notifications:
+    image: rabbit-radar-notifications
+    container_name: rabbit-radar-notifications
+    build:
+      context: ./core/notifications
+    volumes:
+      - ./core/notifications:/usr/src/app
+    env_file:
+      - ./core/notifications/.env
+    depends_on:
+      - api 

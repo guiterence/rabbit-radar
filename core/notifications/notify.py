@@ -5,17 +5,17 @@ from dotenv import load_dotenv
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
-SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 def send_slack_message(message):
     """Envia uma mensagem para o Slack usando um webhook."""
-    if not SLACK_WEBHOOK_URL:
+    if not DISCORD_WEBHOOK_URL:
         print("Slack Webhook URL não configurada.")
         return
 
     payload = {"text": message}
     try:
-        response = requests.post(SLACK_WEBHOOK_URL, json=payload)
+        response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
         response.raise_for_status()
         print("Mensagem enviada para o Slack com sucesso!")
     except requests.exceptions.HTTPError as err:

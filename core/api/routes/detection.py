@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from api.services.detection import detect_objects
+from services.detection import detect_objects
 
 detection_blueprint = Blueprint('detection', __name__)
 

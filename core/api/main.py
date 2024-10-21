@@ -1,7 +1,7 @@
 from flask import Flask
-from api.routes.detection import detection_blueprint
-from api.routes.notifications import notifications_blueprint
-from api.config import Config
+from routes.detection import detection_blueprint
+from routes.notifications import notifications_blueprint
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
