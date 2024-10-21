@@ -1,7 +1,7 @@
 import cv2
 import requests
 
-YOLO_API_URL = "http://yolo-service:5001/predict"  # Ajuste conforme necessário
+YOLO_API_URL = "http://yolo-database:5001/predict"
 
 def capture_frames():
     cap = cv2.VideoCapture(0)

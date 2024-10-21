@@ -11,18 +11,19 @@ services:
     volumes:
       - ./core/api:/usr/src/app
     depends_on:
-      - yolo-database
-      - camera-service
+      - yolo-database           
+    networks:
+      - rabbit-radar-network
 
   camera-service:
     image: rabbit-radar-camera
     container_name: rabbit-radar-camera
     build:
       context: ./core/camera-service
-    volumes:
-      - ./core/camera-service:/usr/src/app
     depends_on:
-      - yolo-database
+      - api
+    networks:
+      - rabbit-radar-network
 
   yolo-database:
     image: rabbit-radar-database
@@ -31,15 +32,19 @@ services:
       context: ./core/yolo-database
     ports:
       - "5001:5001"
+    networks:
+      - rabbit-radar-network
 
   notifications:
     image: rabbit-radar-notifications
     container_name: rabbit-radar-notifications
     build:
       context: ./core/notifications
-    volumes:
-      - ./core/notifications:/usr/src/app
     env_file:
       - ./core/notifications/.env
-    depends_on:
-      - api 
+    networks:
+      - rabbit-radar-network
+
+networks:
+  rabbit-radar-network:
+    driver: bridge

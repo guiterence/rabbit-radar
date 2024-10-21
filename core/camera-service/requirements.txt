@@ -1,4 +1,4 @@
-opencv-python==4.8.0.74
+opencv-python==4.5.5.62
 requests==2.31.0
 numpy==2.1.2
 setuptools==65.5.0
