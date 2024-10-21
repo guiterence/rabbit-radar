@@ -1,5 +1,5 @@
 opencv-python==4.5.5.62
 requests==2.31.0
-numpy==2.1.2
+numpy==1.26.4
 setuptools==65.5.0
 wheel==0.38.4

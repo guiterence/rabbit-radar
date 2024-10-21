@@ -1,33 +1,39 @@
 import cv2
 import requests
+import os
+from core.config import Config
 
-YOLO_API_URL = "http://yolo-database:5001/predict"
+YOLO_ENDPOINT = Config.YOLO_DATABASE_URL
 
-def capture_frames():
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened():
-        print("Erro ao abrir a câmera.")
-        return
+def capture_and_send_frames():
+    cap = cv2.VideoCapture(0)  # Ajuste conforme a câmera do sistema
 
     while True:
         ret, frame = cap.read()
         if not ret:
-            print("Erro ao capturar frame.")
             break
-
+        
         _, img_encoded = cv2.imencode('.jpg', frame)
-        files = {'file': ('frame.jpg', img_encoded.tobytes(), 'image/jpeg')}
-        try:
-            response = requests.post(YOLO_API_URL, files=files)
-            print(f"Detecções: {response.json()}")
-        except Exception as e:
-            print(f"Erro ao enviar imagem para a detecção: {e}")
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        response = requests.post(YOLO_ENDPOINT, files={'image': img_encoded.tobytes()})
+        
+        if response.status_code == 200:
+            result = response.json()
+            # Analisar a resposta e verificar se há objetos perigosos detectados.
+            if result.get("dangerous_object_detected"):
+                send_alert("Objeto perigoso detectado!")
 
     cap.release()
     cv2.destroyAllWindows()
 
+def send_alert(message):
+    webhook_url = Config.WEBHOOK_URL
+    payload = {"content": message}
+    try:
+        response = requests.post(webhook_url, json=payload)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(f"Erro ao enviar mensagem para o webhook: {err}")
+
 if __name__ == "__main__":
-    capture_frames()
+    capture_and_send_frames()
+

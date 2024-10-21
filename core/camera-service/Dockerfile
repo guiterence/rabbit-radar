@@ -7,12 +7,12 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /usr/src/app
 
-COPY wait-for-it.sh /usr/src/app/wait-for-it.sh
-RUN chmod +x /usr/src/app/wait-for-it.sh
+COPY wait-for-it.sh .
+RUN chmod +x wait-for-it.sh
 
 COPY . .
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENTRYPOINT ["/usr/src/app/wait-for-it.sh", "yolo-database:5001", "--", "python", "capture.py"]
+ENTRYPOINT ["./wait-for-it.sh", "camera-service:5002", "--", "python", "capture.py"]
