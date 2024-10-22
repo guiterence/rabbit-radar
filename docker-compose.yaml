@@ -4,36 +4,16 @@ services:
   api:
     image: rabbit-radar-api
     container_name: rabbit-radar-api
+    tty: True
     build:
       context: ./core/api
     ports:
       - "8000:8000"
     volumes:
       - ./core/api:/usr/src/app
+      - /dev/video0:/dev/video0
     environment:
       - PYTHONPATH=/usr/src/app
-    networks:
-      - rabbit-radar-network
-
-  yolo-database:
-    image: rabbit-radar-database
-    container_name: rabbit-radar-database
-    tty: True
-    build:
-      context: ./core/yolo-database
-    ports:
-      - "5001:5001"
-    networks:
-      - rabbit-radar-network
-
-  notifications:
-    image: rabbit-radar-notifications
-    container_name: rabbit-radar-notifications
-    build:
-      context: ./core/notifications
-    environment:
-      - PYTHONPATH=/usr/src/app
-      - WEBHOOK_URL=https://discord.com/api/webhooks/1297745494558117899/3Z7z5CnzzxOgjceYTlf60tR3bhHTwgWa0OLG-O2G8RXFaRBTwBhueCzpPwxAsWzgi-SV
     networks:
       - rabbit-radar-network
 

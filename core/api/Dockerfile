@@ -6,9 +6,12 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     libgl1-mesa-glx \
     libglib2.0-0 \
+    libopenblas-dev \
+    liblapack-dev \
+    gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip==22.3.1
+RUN pip install --upgrade pip
 
 WORKDIR /usr/src/app
 
