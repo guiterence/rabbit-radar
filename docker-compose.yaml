@@ -15,21 +15,10 @@ services:
     networks:
       - rabbit-radar-network
 
-  camera-service:
-    image: rabbit-radar-camera
-    container_name: rabbit-radar-camera
-    build:
-      context: ./core/camera-service
-    ports: 
-      - "5002:5002"
-    environment:
-      - YOLO_ENDPOINT=http://yolo-database:5001/predict
-    networks:
-      - rabbit-radar-network
-
   yolo-database:
     image: rabbit-radar-database
     container_name: rabbit-radar-database
+    tty: True
     build:
       context: ./core/yolo-database
     ports:

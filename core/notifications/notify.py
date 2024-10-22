@@ -1,12 +1,11 @@
 import requests
 import os
 from dotenv import load_dotenv
-from config import Config
 
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
-DISCORD_WEBHOOK_URL = Config.WEBHOOK_URL
+DISCORD_WEBHOOK_URL = os.getenv("WEBHOOK_URL", "https://discord.com/api/webhooks/1297745494558117899/3Z7z5CnzzxOgjceYTlf60tR3bhHTwgWa0OLG-O2G8RXFaRBTwBhueCzpPwxAsWzgi-SV")
 
 def send_slack_message(message):
     """Envia uma mensagem para o Slack usando um webhook."""

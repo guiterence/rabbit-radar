@@ -1,6 +1,5 @@
 import requests
 import os
-from config import Config
 
 def send_alert(message):
     """
@@ -12,7 +11,7 @@ def send_alert(message):
     Returns:
         response (dict): Resposta da solicitação ao serviço de webhook.
     """
-    webhook_url = Config.WEBHOOK_URL
+    webhook_url = os.getenv("WEBHOOK_URL", "https://discord.com/api/webhooks/1297745494558117899/3Z7z5CnzzxOgjceYTlf60tR3bhHTwgWa0OLG-O2G8RXFaRBTwBhueCzpPwxAsWzgi-SV")
     if not webhook_url:
         raise ValueError("Webhook URL not configured. Please set the WEBHOOK_URL environment variable.")
 
