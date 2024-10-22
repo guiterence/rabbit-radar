@@ -1,5 +1,6 @@
 import requests
 import os
+from config import Config
 
 def send_alert(message):
     """
@@ -11,7 +12,7 @@ def send_alert(message):
     Returns:
         response (dict): Resposta da solicitação ao serviço de webhook.
     """
-    webhook_url = os.getenv("WEBHOOK_URL")  # A URL do webhook é armazenada em variáveis de ambiente.
+    webhook_url = Config.WEBHOOK_URL
     if not webhook_url:
         raise ValueError("Webhook URL not configured. Please set the WEBHOOK_URL environment variable.")
 

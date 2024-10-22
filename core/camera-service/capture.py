@@ -1,7 +1,7 @@
 import cv2
 import requests
 import os
-from core.config import Config
+from config import Config
 
 YOLO_ENDPOINT = Config.YOLO_DATABASE_URL
 

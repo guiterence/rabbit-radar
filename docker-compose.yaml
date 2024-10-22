@@ -10,8 +10,8 @@ services:
       - "8000:8000"
     volumes:
       - ./core/api:/usr/src/app
-    depends_on:
-      - yolo-database           
+    environment:
+      - PYTHONPATH=/usr/src/app
     networks:
       - rabbit-radar-network
 
@@ -20,8 +20,10 @@ services:
     container_name: rabbit-radar-camera
     build:
       context: ./core/camera-service
-    depends_on:
-      - api
+    ports: 
+      - "5002:5002"
+    environment:
+      - YOLO_ENDPOINT=http://yolo-database:5001/predict
     networks:
       - rabbit-radar-network
 
@@ -40,8 +42,9 @@ services:
     container_name: rabbit-radar-notifications
     build:
       context: ./core/notifications
-    env_file:
-      - ./core/notifications/.env
+    environment:
+      - PYTHONPATH=/usr/src/app
+      - WEBHOOK_URL=https://discord.com/api/webhooks/1297745494558117899/3Z7z5CnzzxOgjceYTlf60tR3bhHTwgWa0OLG-O2G8RXFaRBTwBhueCzpPwxAsWzgi-SV
     networks:
       - rabbit-radar-network
 
